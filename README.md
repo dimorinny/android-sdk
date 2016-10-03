@@ -1,2 +1,2 @@
 # android-sdk
-Docker images for android unit and instrumental tests in ci
+Docker images for android unit tests in ci
