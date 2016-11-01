@@ -8,6 +8,7 @@ RUN apt-get update -qq
 RUN apt-get install -y --no-install-recommends \
     openjdk-8-jdk \
     curl \
+    git \
     libncurses5:i386 \
     libstdc++6:i386 \
     zlib1g:i386 \
