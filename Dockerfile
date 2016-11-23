@@ -6,7 +6,9 @@ RUN dpkg --add-architecture i386
 RUN apt-get update -qq
 
 RUN apt-get install -y --no-install-recommends \
+    python \
     openjdk-8-jdk \
+    wget \
     curl \
     git \
     libncurses5:i386 \
@@ -25,6 +27,16 @@ ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 COPY tools /opt/sdk-tools
 ENV PATH ${PATH}:/opt/sdk-tools
 
+# Install google cloud sdk
+RUN wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz -P /tmp/ \
+    && tar -C /usr/local/ -xzf /tmp/google-cloud-sdk.tar.gz \
+    && CLOUDSDK_CORE_DISABLE_PROMPTS=1 /usr/local/google-cloud-sdk/install.sh \
+       --usage-reporting=true \
+       --path-update=true \
+       --bash-completion=true \
+       --rc-path=/.bashrc \
+    && rm /tmp/google-cloud-sdk.tar.gz
+
 # Add your android modules here
 RUN /opt/sdk-tools/install-module-with-accept.sh \
     tools \
@@ -36,6 +48,8 @@ RUN /opt/sdk-tools/install-module-with-accept.sh \
     extra-google-m2repository
 
 RUN apt-get clean
+
+ENV PATH /google-cloud-sdk/bin:$PATH
 
 VOLUME /root/.m2
 VOLUME /workspace
