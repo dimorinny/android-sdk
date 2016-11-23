@@ -16,6 +16,7 @@ RUN apt-get install -y --no-install-recommends \
     zlib1g:i386 \
     maven
 
+# Install android sdk
 RUN cd /opt && \
     curl -O http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz && \
     tar xzf android-sdk_r24.4.1-linux.tgz && \
@@ -37,6 +38,8 @@ RUN wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz -P /t
        --rc-path=/.bashrc \
     && rm /tmp/google-cloud-sdk.tar.gz
 
+ENV PATH /google-cloud-sdk/bin:$PATH
+
 # Add your android modules here
 RUN /opt/sdk-tools/install-module-with-accept.sh \
     tools \
@@ -48,8 +51,6 @@ RUN /opt/sdk-tools/install-module-with-accept.sh \
     extra-google-m2repository
 
 RUN apt-get clean
-
-ENV PATH /google-cloud-sdk/bin:$PATH
 
 VOLUME /root/.m2
 VOLUME /workspace
