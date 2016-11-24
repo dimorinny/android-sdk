@@ -1,0 +1,15 @@
+sudo: require
+
+services:
+  - docker
+
+script: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/test dimorinny/testinfra
+
+after_success:
+  - export PUSH_TAG=dimorinny/android-sdk:latest
+  - docker build -t $PUSH_TAG .
+  - docker push $PUSH_TAG
+
+notifications:
+  email:
+    - didika914@gmail.com
