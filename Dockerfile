@@ -38,7 +38,7 @@ RUN wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz -P /t
        --rc-path=/.bashrc \
     && rm /tmp/google-cloud-sdk.tar.gz
 
-ENV PATH /google-cloud-sdk/bin:$PATH
+ENV PATH ${PATH}:/usr/local/google-cloud-sdk/bin
 
 # Add your android modules here
 RUN /opt/sdk-tools/install-module-with-accept.sh \
