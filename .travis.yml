@@ -6,6 +6,7 @@ services:
 script: travis_wait 30 docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/test dimorinny/testinfra
 
 after_success:
+  - docker login --username $DOCKER_LOGIN --password $DOCKER_PASSWORD
   - export PUSH_TAG=dimorinny/android-sdk:latest
   - docker build -t $PUSH_TAG .
   - docker push $PUSH_TAG

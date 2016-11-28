@@ -36,6 +36,7 @@ RUN wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz -P /t
        --path-update=true \
        --bash-completion=true \
        --rc-path=/.bashrc \
+       --additional-components beta \
     && rm /tmp/google-cloud-sdk.tar.gz
 
 ENV PATH ${PATH}:/usr/local/google-cloud-sdk/bin
