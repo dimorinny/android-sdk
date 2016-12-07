@@ -38,8 +38,7 @@ COPY tools /opt/sdk-tools
 ENV PATH ${PATH}:/opt/sdk-tools
 
 # Install google cloud sdk
-RUN wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-127.0.0-linux-x86_64.tar.gz -P /tmp/ \
-    && mv /tmp/google-cloud-sdk-127.0.0-linux-x86_64.tar.gz /tmp/google-cloud-sdk.tar.gz \
+RUN wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz -P /tmp/ \
     && tar -C /usr/local/ -xzf /tmp/google-cloud-sdk.tar.gz \
     && CLOUDSDK_CORE_DISABLE_PROMPTS=1 /usr/local/google-cloud-sdk/install.sh \
        --usage-reporting=true \
