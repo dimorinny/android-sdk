@@ -1,4 +1,4 @@
-FROM ubuntu:15.04
+FROM ubuntu:zesty
 
 MAINTAINER didika914@gmail.com
 
@@ -6,7 +6,8 @@ RUN dpkg --add-architecture i386
 RUN apt-get update -qq
 
 RUN apt-get install -y --no-install-recommends \
-    python \
+    python-dev \
+    gcc \
     openjdk-8-jdk \
     wget \
     curl \
@@ -15,6 +16,14 @@ RUN apt-get install -y --no-install-recommends \
     libstdc++6:i386 \
     zlib1g:i386 \
     maven
+
+# Install pip
+RUN curl -O "https://bootstrap.pypa.io/get-pip.py" && \
+    python get-pip.py && \
+    rm get-pip.py
+
+# CRC mod is required for gsutil copying
+RUN pip install crcmod
 
 # Install android sdk
 RUN cd /opt && \
@@ -29,7 +38,8 @@ COPY tools /opt/sdk-tools
 ENV PATH ${PATH}:/opt/sdk-tools
 
 # Install google cloud sdk
-RUN wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz -P /tmp/ \
+RUN wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-127.0.0-linux-x86_64.tar.gz -P /tmp/ \
+    && mv /tmp/google-cloud-sdk-127.0.0-linux-x86_64.tar.gz /tmp/google-cloud-sdk.tar.gz \
     && tar -C /usr/local/ -xzf /tmp/google-cloud-sdk.tar.gz \
     && CLOUDSDK_CORE_DISABLE_PROMPTS=1 /usr/local/google-cloud-sdk/install.sh \
        --usage-reporting=true \
